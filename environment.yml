@@ -1,0 +1,11 @@
+name: microGWAS
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+- python>=3.6
+- snakemake
+- ncbi-genome-download
+- biopython
+- gffutils

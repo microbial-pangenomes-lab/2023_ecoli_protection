@@ -1,0 +1,10 @@
+channels:
+ - conda-forge
+ - bioconda
+dependencies:
+ - sift4g=2.0.0
+ - r-xml
+ - r-argparse
+ - r-devtools=2.0.1
+ - r-mass
+ - r-lattice

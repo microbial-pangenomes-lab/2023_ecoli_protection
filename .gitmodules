@@ -1,0 +1,3 @@
+[submodule "albi"]
+	path = albi
+	url = https://github.com/cozygene/albi.git
