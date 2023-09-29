@@ -40,6 +40,9 @@ gffs: "data/gffs"
 # note: can also be a symbolic link
 emapper: "data/eggnog-mapper"
 
+# VAGs
+vag_genes: "data/AllVFs.fasta"
+
 # snpeff
 references_dir: "data/references"
 references_fastas: "data/references/fastas"

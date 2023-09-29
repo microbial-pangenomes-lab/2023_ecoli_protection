@@ -104,6 +104,43 @@ rule pangenome:
   shell:
     "panaroo -t {threads} -i {input} -o {params} --clean-mode strict -a core 2> {log}"
 
+rule find_vag:
+  input:
+    query=config["vag_genes"],
+    pangenome=config["pangenome_csv"],
+    genes=config["pangenome_genes"]
+  output:
+    "out/vag_blast.txt"
+  params:
+    r=config["annotation_references"],
+    sample="out/sample.fna",
+  threads: 1
+  conda: "envs/blast.yaml"
+  log: "out/logs/find_vag.log"
+  shell:
+    """
+    python workflow/scripts/sample_pangenome.py {input.pangenome} {input.genes} \
+               {params.r} \
+               --nucleotide > {params.sample} 2> {log} && \
+    blastn -query {input.query} -out {output} -subject {params.sample} -outfmt "6 qseqid sseqid pident qlen slen length nident" > {output} 2>> {log}
+    """
+
+rule find_amr_vag:
+  input: config["unitigs_input"]
+  output:
+    "out/abritamr/abritamr.txt"
+  params:
+  threads: 36
+  conda: "envs/abritamr.yaml"
+  log: "out/logs/find_amr_vag.log"
+  shell:
+    """
+    mkdir -p out/abritamr && \
+    tail -n+2 {input} | sed 's/data/..\/..\/data/g' > out/abritamr/abritamr_input.tsv && \
+    cd out/abritamr && \
+    abritamr run --contigs abritamr_input.tsv --species Escherichia --jobs {threads}
+    """
+
 rule variant_sites:
   input: config["core_genome_aln"]
   output: config["core_genome_aln_variant"]

@@ -29,6 +29,10 @@ def get_options():
                         action='store_true',
                         help='Tab-delimited summary file is a structural '
                              'variant file')
+    parser.add_argument('--nucleotide',
+                        default=False,
+                        action='store_true',
+                        help='Get nucleotide sequence, default=protein')
 
     return parser.parse_args()
 
@@ -70,6 +74,9 @@ if __name__ == "__main__":
         if ogs is not None and g not in ogs:
             continue
         genes = roary.loc[g].dropna()
+        if genes.shape[0] == 0:
+            sys.stderr.write(f'No actual gene found for OG {g}\n')
+            continue
         if options.focus_strain is None:
             genes = genes.sample(frac=1)
             strain = genes.index[0]
@@ -96,7 +103,10 @@ if __name__ == "__main__":
             gene_id = row[3]
             if gene_id not in d:
                 continue
-            protein = row[4]
+            if options.nucleotide:
+                protein = row[5]
+            else:
+                protein = row[4]
             strain, og = d[gene_id]
             if '*' in protein:
                 sys.stderr.write(f'Gene {gene_id} / {og} has a stop '
