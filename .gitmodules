@@ -1,3 +1,6 @@
 [submodule "albi"]
 	path = albi
 	url = https://github.com/cozygene/albi.git
+[submodule "ClermonTyping"]
+	path = ClermonTyping
+	url = https://github.com/iame-researchCenter/ClermonTyping
