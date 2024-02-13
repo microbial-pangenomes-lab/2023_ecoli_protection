@@ -100,4 +100,4 @@ if __name__ == "__main__":
 
         p = p[:-1]
 
-        print(f'>{fid} (f.chromosome) {f.start} {f.end} {f.strand}\n{p}')
+        print(f'>{fid} {f.chromosome} {f.start} {f.end} {f.strand}\n{p}')
